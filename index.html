@@ -2,6 +2,8 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
+<!-- Esta etiqueta es la magia para que en el teléfono se vea como una app real y no chiquito -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>¿Cuánto me amas?</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Poppins:wght@400;600&display=swap');
@@ -22,39 +24,38 @@
     display:flex;
     align-items:center;
     justify-content:center;
-    background: radial-gradient(circle at 50% 0%, var(--bg2), var(--bg) 70%);
+    /* El fondo degradado ahora cubre toda la pantalla del teléfono */
+    background: linear-gradient(180deg, #fdeef2 0%, #fbe0e8 100%);
     font-family:'Poppins', sans-serif;
     overflow:hidden;
   }
 
-  .phone{
+  /* Cambiamos .phone por .page-container para que sea fluido */
+  .page-container{
     position:relative;
-    width:390px;
-    height:780px;
-    background:linear-gradient(180deg, #fdeef2 0%, #fbe0e8 100%);
-    border-radius:44px;
-    box-shadow:0 30px 60px rgba(122,31,61,.25), 0 0 0 10px #1c1c1e;
-    overflow:hidden;
+    width:100%;
+    height:100vh;
+    max-width: 500px; /* Para que si lo abres en PC no se vea gigante */
     display:flex;
     flex-direction:column;
     align-items:center;
-    padding-top:70px;
+    justify-content:center; /* Centra todo perfectamente */
   }
 
   /* --- decorative floating doodles --- */
   .birds{
-    position:absolute; top:38px; right:26px;
+    position:absolute; top:8%; right:8%;
     font-size:26px;
     animation: bob 3s ease-in-out infinite;
   }
   .plane{
-    position:absolute; left:22px; bottom:170px;
+    position:absolute; left:5%; bottom:20%;
     font-size:30px;
     transform:rotate(-18deg);
     animation: floaty 4s ease-in-out infinite;
   }
   .trail{
-    position:absolute; left:34px; bottom:150px;
+    position:absolute; left:8%; bottom:18%;
     width:120px; height:70px;
     opacity:.5;
   }
@@ -71,7 +72,7 @@
   .stage{
     width:220px; height:200px;
     display:flex; align-items:center; justify-content:center;
-    margin-bottom:6px;
+    margin-bottom:10px;
   }
   #catGif{
     max-width:190px;
@@ -87,16 +88,17 @@
   h1{
     font-family:'Baloo 2', sans-serif;
     font-weight:800;
-    font-size:26px;
+    font-size:28px;
     color:var(--ink);
     margin:6px 0 2px;
     letter-spacing:.2px;
+    text-align: center;
   }
 
   #pct{
     font-family:'Baloo 2', sans-serif;
     font-weight:800;
-    font-size:34px;
+    font-size:38px;
     color:var(--heart);
     margin:2px 0 2px;
     min-height:42px;
@@ -105,11 +107,12 @@
   #phrase{
     font-family:'Baloo 2', sans-serif;
     font-weight:700;
-    font-size:17px;
+    font-size:18px;
     color:var(--ink);
     min-height:24px;
-    margin-bottom:6px;
+    margin-bottom:15px;
     transition: opacity .15s ease;
+    text-align: center;
   }
 
   /* --- gauge --- */
@@ -126,40 +129,45 @@
 
   /* --- slider --- */
   .sliderWrap{
-    width:280px;
-    margin-top:26px;
+    width: 85%;
+    max-width: 320px;
+    margin-top: 30px;
     display:flex; align-items:center; gap:8px;
   }
   input[type=range]{
     -webkit-appearance:none;
     appearance:none;
     width:100%;
-    height:4px;
+    height:8px; /* Pista un poquito más gruesa */
     border-radius:4px;
     background:linear-gradient(90deg, #f2a6bf, #d81b5f);
     outline:none;
   }
+  
+  /* Botón más grande para que sea fácil de coger con el dedo */
   input[type=range]::-webkit-slider-thumb{
     -webkit-appearance:none;
-    width:26px; height:26px;
+    width:36px; 
+    height:36px;
     border-radius:50%;
     background:#fff;
-    border:4px solid var(--heart);
-    box-shadow:0 3px 8px rgba(216,27,95,.5);
+    border:5px solid var(--heart);
+    box-shadow:0 3px 10px rgba(216,27,95,.4);
     cursor:pointer;
   }
   input[type=range]::-moz-range-thumb{
-    width:18px; height:18px;
+    width:36px; 
+    height:36px;
     border-radius:50%;
     background:#fff;
-    border:4px solid var(--heart);
+    border:5px solid var(--heart);
     cursor:pointer;
   }
 </style>
 </head>
 <body>
 
-<div class="phone">
+<div class="page-container">
 
   <div class="birds">🐦💕🐦</div>
   <div class="plane">✈️</div>
@@ -217,7 +225,7 @@ const phraseEl= document.getElementById('phrase');
 const needle  = document.getElementById('needle');
 const segG    = document.getElementById('segments');
 
-// --- build gauge segments (6 arcs from 180deg to 0deg) ---
+// --- build gauge segments ---
 const cx=150, cy=150, r=95;
 const colors = ['#fbcede','#f6aac6','#ef7fac','#e35590','#c22a68','#a4123f'];
 function polar(cx,cy,r,angleDeg){
@@ -225,7 +233,6 @@ function polar(cx,cy,r,angleDeg){
   return { x: cx + r*Math.cos(a), y: cy + r*Math.sin(a) };
 }
 const segCount = colors.length;
-// sweep from 180 (left) to 0 (right) across the top half
 for(let i=0;i<segCount;i++){
   const startAngle = 180 - (180/segCount)*i;
   const endAngle   = 180 - (180/segCount)*(i+1);
@@ -260,14 +267,13 @@ function setFace(val){
   const item = phrases.find(p=>val<=p.max) || phrases[phrases.length-1];
   phraseEl.textContent = item.text;
   if(item.gif !== lastGif){
-    catGif.src = item.gif; // reinicia la animación del gif al cambiar de nivel
+    catGif.src = item.gif;
     lastGif = item.gif;
   }
 }
 
 function update(val){
   pctEl.textContent = val + '%';
-  // needle points straight up at 50%; -90deg at 0%, +90deg at 100%
   const rotation = (val/100)*180 - 90;
   needle.style.transform = `rotate(${rotation}deg)`;
   setFace(val);
