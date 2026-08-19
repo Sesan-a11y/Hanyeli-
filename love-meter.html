@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>¿Cuánto me amas?</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Poppins:wght@400;600&display=swap');
+
+  :root{
+    --bg: #fbe6ec;
+    --bg2: #fdeef2;
+    --ink: #7a1f3d;
+    --line: #2b1620;
+    --heart: #d81b5f;
+  }
+
+  *{ box-sizing:border-box; }
+
+  body{
+    margin:0;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background: radial-gradient(circle at 50% 0%, var(--bg2), var(--bg) 70%);
+    font-family:'Poppins', sans-serif;
+    overflow:hidden;
+  }
+
+  .phone{
+    position:relative;
+    width:390px;
+    height:780px;
+    background:linear-gradient(180deg, #fdeef2 0%, #fbe0e8 100%);
+    border-radius:44px;
+    box-shadow:0 30px 60px rgba(122,31,61,.25), 0 0 0 10px #1c1c1e;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding-top:70px;
+  }
+
+  /* --- decorative floating doodles --- */
+  .birds{
+    position:absolute; top:38px; right:26px;
+    font-size:26px;
+    animation: bob 3s ease-in-out infinite;
+  }
+  .plane{
+    position:absolute; left:22px; bottom:170px;
+    font-size:30px;
+    transform:rotate(-18deg);
+    animation: floaty 4s ease-in-out infinite;
+  }
+  .trail{
+    position:absolute; left:34px; bottom:150px;
+    width:120px; height:70px;
+    opacity:.5;
+  }
+  @keyframes bob{
+    0%,100%{ transform:translateY(0); }
+    50%{ transform:translateY(-6px) rotate(-4deg); }
+  }
+  @keyframes floaty{
+    0%,100%{ transform:translateY(0) rotate(-18deg); }
+    50%{ transform:translateY(-10px) rotate(-12deg); }
+  }
+
+  /* --- cat --- */
+  .stage{
+    width:220px; height:200px;
+    display:flex; align-items:center; justify-content:center;
+    margin-bottom:6px;
+  }
+  #catGif{
+    max-width:190px;
+    max-height:190px;
+    filter: drop-shadow(0 8px 14px rgba(122,31,61,.18));
+    animation: cat-idle 2.6s ease-in-out infinite;
+  }
+  @keyframes cat-idle{
+    0%,100%{ transform:translateY(0) rotate(0deg); }
+    50%{ transform:translateY(-5px) rotate(-1.2deg); }
+  }
+
+  h1{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:800;
+    font-size:26px;
+    color:var(--ink);
+    margin:6px 0 2px;
+    letter-spacing:.2px;
+  }
+
+  #pct{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:800;
+    font-size:34px;
+    color:var(--heart);
+    margin:2px 0 2px;
+    min-height:42px;
+  }
+
+  #phrase{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size:17px;
+    color:var(--ink);
+    min-height:24px;
+    margin-bottom:6px;
+    transition: opacity .15s ease;
+  }
+
+  /* --- gauge --- */
+  .gaugeWrap{ position:relative; width:300px; height:170px; margin-top:6px; }
+  svg#gauge{ width:300px; height:170px; overflow:visible; }
+  #needle{ transform-origin: 150px 150px; transition: transform .25s cubic-bezier(.34,1.56,.64,1); }
+  .loveLabel{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size:22px;
+    fill:#c2185b;
+    font-style:italic;
+  }
+
+  /* --- slider --- */
+  .sliderWrap{
+    width:280px;
+    margin-top:26px;
+    display:flex; align-items:center; gap:8px;
+  }
+  input[type=range]{
+    -webkit-appearance:none;
+    appearance:none;
+    width:100%;
+    height:4px;
+    border-radius:4px;
+    background:linear-gradient(90deg, #f2a6bf, #d81b5f);
+    outline:none;
+  }
+  input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none;
+    width:26px; height:26px;
+    border-radius:50%;
+    background:#fff;
+    border:4px solid var(--heart);
+    box-shadow:0 3px 8px rgba(216,27,95,.5);
+    cursor:pointer;
+  }
+  input[type=range]::-moz-range-thumb{
+    width:18px; height:18px;
+    border-radius:50%;
+    background:#fff;
+    border:4px solid var(--heart);
+    cursor:pointer;
+  }
+</style>
+</head>
+<body>
+
+<div class="phone">
+
+  <div class="birds">🐦💕🐦</div>
+  <div class="plane">✈️</div>
+  <svg class="trail" viewBox="0 0 120 70">
+    <path d="M5 65 Q40 60 55 35 Q65 15 90 20" stroke="var(--heart)" stroke-width="2" stroke-dasharray="4 5" fill="none" stroke-linecap="round"/>
+    <path d="M78 12 c4 -8 14 -8 16 0 c2 8 -8 14 -16 20 c-8 -6 -18 -12 -16 -20 c2 -8 12 -8 16 0 z" fill="var(--heart)"/>
+  </svg>
+
+  <div class="stage">
+    <img id="catGif" src="gif/cat-shy.gif" alt="gatito">
+  </div>
+
+  <h1>¿Cuánto me amas?</h1>
+  <div id="pct">0%</div>
+  <div id="phrase">Muévelo y descúbrelo 👀</div>
+
+  <div class="gaugeWrap">
+    <svg id="gauge" viewBox="0 0 300 170">
+      <defs>
+        <linearGradient id="segGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#fbcede"/>
+          <stop offset="50%" stop-color="#ef6f9b"/>
+          <stop offset="100%" stop-color="#a4123f"/>
+        </linearGradient>
+      </defs>
+
+      <!-- 6 segments as arcs -->
+      <g id="segments" stroke-width="26" fill="none" stroke-linecap="butt"></g>
+
+      <!-- tick hearts -->
+      <text x="26" y="130" font-size="18">🤍</text>
+      <text x="258" y="130" font-size="18">❤️</text>
+
+      <text x="150" y="118" text-anchor="middle" class="loveLabel">love</text>
+
+      <!-- needle -->
+      <g id="needle">
+        <line x1="150" y1="150" x2="150" y2="55" stroke="var(--line)" stroke-width="4" stroke-linecap="round"/>
+        <circle cx="150" cy="150" r="9" fill="var(--line)"/>
+        <circle cx="150" cy="150" r="3.5" fill="#fff"/>
+      </g>
+    </svg>
+  </div>
+
+  <div class="sliderWrap">
+    <input type="range" id="slider" min="0" max="100" value="0">
+  </div>
+
+</div>
+
+<script>
+const slider  = document.getElementById('slider');
+const pctEl   = document.getElementById('pct');
+const phraseEl= document.getElementById('phrase');
+const needle  = document.getElementById('needle');
+const segG    = document.getElementById('segments');
+
+// --- build gauge segments (6 arcs from 180deg to 0deg) ---
+const cx=150, cy=150, r=95;
+const colors = ['#fbcede','#f6aac6','#ef7fac','#e35590','#c22a68','#a4123f'];
+function polar(cx,cy,r,angleDeg){
+  const a = (angleDeg-180) * Math.PI/180;
+  return { x: cx + r*Math.cos(a), y: cy + r*Math.sin(a) };
+}
+const segCount = colors.length;
+// sweep from 180 (left) to 0 (right) across the top half
+for(let i=0;i<segCount;i++){
+  const startAngle = 180 - (180/segCount)*i;
+  const endAngle   = 180 - (180/segCount)*(i+1);
+  const p0 = polarPoint(startAngle);
+  const p1 = polarPoint(endAngle);
+  const path = document.createElementNS('http://www.w3.org/2000/svg','path');
+  path.setAttribute('d', `M ${p0.x} ${p0.y} A ${r} ${r} 0 0 1 ${p1.x} ${p1.y}`);
+  path.setAttribute('stroke', colors[i]);
+  path.setAttribute('stroke-width','26');
+  path.setAttribute('fill','none');
+  path.setAttribute('stroke-linecap','butt');
+  segG.appendChild(path);
+}
+function polarPoint(angleDeg){
+  const rad = angleDeg * Math.PI/180;
+  return { x: cx + r*Math.cos(rad), y: cy - r*Math.sin(rad) };
+}
+
+// --- gif por nivel de amor ---
+const catGif = document.getElementById('catGif');
+
+const phrases = [
+  {max:20,  text:"Mmm, tímido todavía… 😳",       gif:'gif/cat-shy.gif'},
+  {max:40,  text:"Vas calentando motores 😌",      gif:'gif/cat-neutral.gif'},
+  {max:60,  text:"¡Eso ya me gusta! 💗",            gif:'gif/cat-heart.gif'},
+  {max:80,  text:"¡Me encantas! 🥰",                gif:'gif/cat-hearts-flying.gif'},
+  {max:100, text:"¡Te amo hasta el infinito! 💖",   gif:'gif/cat-couple-max.gif'},
+];
+
+let lastGif = '';
+function setFace(val){
+  const item = phrases.find(p=>val<=p.max) || phrases[phrases.length-1];
+  phraseEl.textContent = item.text;
+  if(item.gif !== lastGif){
+    catGif.src = item.gif; // reinicia la animación del gif al cambiar de nivel
+    lastGif = item.gif;
+  }
+}
+
+function update(val){
+  pctEl.textContent = val + '%';
+  // needle points straight up at 50%; -90deg at 0%, +90deg at 100%
+  const rotation = (val/100)*180 - 90;
+  needle.style.transform = `rotate(${rotation}deg)`;
+  setFace(val);
+}
+
+slider.addEventListener('input', e => update(parseInt(e.target.value)));
+update(0);
+</script>
+
+</body>
+</html>
